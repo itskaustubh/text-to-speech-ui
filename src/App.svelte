@@ -25,7 +25,8 @@
 				<!-- https://svelte.dev/repl/8eb540552faa4651a398b182fa5cdd48?version=3.24.1 -->
 				<form class="input-box" on:submit|preventDefault={handleSubmit}>
 					<input id="type-message" autocomplete="off" type="text" placeholder="type in any language" bind:value={inputText}> 
-					<div class="send-message" on:click={handleSubmit}></div>
+					<SendButton on:send={handleSubmit}/>
+
 				</form>
 			</div>
 		</div>
@@ -36,6 +37,7 @@
 <script>
 	import { beforeUpdate, afterUpdate } from 'svelte';
 	import AudioMessage from './components/AudioMessage.svelte'
+	import SendButton from './components/SendButton.svelte'
 	import CHATLOG_STORE from './store/state'
 
 	let CHATLOG = []
@@ -68,7 +70,9 @@
 				return [...currentLogs, ['user',inputText],['reply',inputText]]
 			})
 		}
-		fetchSpeech('ଏଇଠି ଓଡ଼ିଆରେ ଲେଖନ୍ତୁ ଓ ଓଡ଼ିଆରେ ଶୁଣନ୍ତୁ')
+		if(inputText == 'test'){
+			fetchSpeech('ଏଇଠି ଓଡ଼ିଆରେ ଲେଖନ୍ତୁ ଓ ଓଡ଼ିଆରେ ଶୁଣନ୍ତୁ')
+		}
 
 		inputText = ''
 	}
@@ -80,7 +84,7 @@
         fileData.append("file", TranslatedOdiaText);
         fileData.append("id", rand);  
 
-        fetch('http://ai4language.in/analyze', {
+        fetch('https://ai4language.in/analyze', {
             method: 'post',
             body: fileData,
         }).then(r => r.json())
@@ -159,7 +163,7 @@ $box-border-thickness : 4px;
 							
 
 							.message-reply{
-								max-width: 60%;
+								max-width: 80%;
 								background: white;
 								border-radius: 24px;
 								border-top-left-radius: 0;
@@ -167,9 +171,9 @@ $box-border-thickness : 4px;
 								will-change: transform;
 								float: left;
 
-								// word-wrap: break-word;
-								// word-break: break-word;
-								// hyphens: auto;
+								word-wrap: break-word;
+								word-break: break-word;
+								hyphens: auto;
 
 								// animation: pop 0.3s cubic-bezier(0.36, -0.04, 0.15, 1.64) 0.9s both;
 							}
@@ -180,13 +184,16 @@ $box-border-thickness : 4px;
 							padding-bottom: 1rem;
 
 							.message-user{
-								max-width: 60%;
+								max-width: 80%;
 								background: white;
 								border-radius: 24px;
 								border-top-right-radius: 0;
 								padding: 1rem;
 								will-change: transform;
 								float : right;
+								hyphens: auto;
+								word-wrap: break-word;
+								word-break: break-word;
 							}
 						}
 					}
@@ -194,6 +201,7 @@ $box-border-thickness : 4px;
 					.input-box{
 						flex	: 3;
 						display: flex;
+					
 						
 						#type-message{
 							flex: auto;
@@ -201,9 +209,11 @@ $box-border-thickness : 4px;
 							border: none;
 							font-size: 1rem;
 							padding: 1.5rem;
+							outline: 0;
 
 							&:focus{
 								border: none;
+								outline: 0;
 							}
 						}
 
