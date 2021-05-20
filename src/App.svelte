@@ -44,7 +44,8 @@
 	import CHATLOG_STORE from './store/state'
 
 	let CHATLOG = []
-	CHATLOG_STORE.subscribe(newLog = {
+	CHATLOG_STORE.subscribe(newLog => {
+		console.log(newLog)
 		CHATLOG = newLog
 	})
 
@@ -68,7 +69,10 @@
 	async function 	handleSubmit(){
 		console.log(inputText)
 		if(inputText !== ''){
-			CHATLOG = [...CHATLOG, ['user',inputText]];
+			// CHATLOG = [...CHATLOG, ['user',inputText]];
+			CHATLOG_STORE.update(currentLogs => {
+				return [...currentLogs, ['user',inputText]]
+			})
 
 			if (inputText == 'test'){
 				console.log('testing tts')
