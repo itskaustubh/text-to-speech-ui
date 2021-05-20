@@ -1,6 +1,6 @@
 <!-- https://codepen.io/MarioDesigns/pen/ENevMJ -->
 <div class="container" >
-	<div class="btn play" class:play={!playing} class:pause={playing} on:click={handlePlayPause}>
+	<div class="btn play" class:play={!isPlaying} class:pause={isPlaying} on:click={handlePlayPause}>
 		<span class="bar bar-1"></span>
 		<span class="bar bar-2"></span>			 	
         <span class="bar bar-3"></span>		
@@ -9,11 +9,22 @@
 
 
 <script>
-    let playing = false
+    export let audioURL
+
+    let isPlaying = false
+    var audio = new Audio(audioURL);
+    audio.addEventListener('ended', () => {
+        // console.log('audio ended')
+        isPlaying = false
+    });
 
     function handlePlayPause(){
-        playing = !playing
-        console.log(playing)
+        isPlaying = !isPlaying
+        if(isPlaying){
+            audio.play();
+        }else{
+            audio.pause()
+        }
     }
 </script>
 

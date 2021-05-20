@@ -1,8 +1,11 @@
-<p>{sentence}</p>
+<p>{textToTranslate} {sentence}</p>
 
 <script>
 
     let sentence = ''
+    export let textToTranslate;
+
+    // console.log(textToTranslate)
 
     // translate(`I'm fine.`, {
     //     to: "Hindi",

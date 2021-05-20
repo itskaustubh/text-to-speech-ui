@@ -12,7 +12,7 @@
 						{#if log[0] === 'reply'}
 							<div class="message-reply-scaffold">
 								<div class="message-reply">
-									<AudioMessage/>
+									<AudioMessage textToTranslate = {textToTranslate}/>
 								</div>
 							</div>
 						{:else}
@@ -21,11 +21,6 @@
 						</div>
 						{/if}
 					{/each}
-						<div class="message-reply-scaffold">
-							<div class="message-reply">
-								<AudioMessage/>
-							</div>
-						</div>
 				</div>
 				<!-- https://svelte.dev/repl/8eb540552faa4651a398b182fa5cdd48?version=3.24.1 -->
 				<form class="input-box" on:submit|preventDefault={handleSubmit}>
@@ -45,13 +40,14 @@
 
 	let CHATLOG = []
 	CHATLOG_STORE.subscribe(newLog => {
-		console.log(newLog)
+		// console.log(newLog)
 		CHATLOG = newLog
 	})
 
 	let inputText = '';
 	let messageBox;
 	let autoscroll;
+	let textToTranslate;
 
 	beforeUpdate(() => {
 		autoscroll = messageBox && (messageBox.offsetHeight + messageBox.scrollTop) > (messageBox.scrollHeight - 20);
@@ -63,37 +59,35 @@
 		} 
 	});
 
-
-
-
-	async function 	handleSubmit(){
+	function handleSubmit(){
 		console.log(inputText)
 		if(inputText !== ''){
 			// CHATLOG = [...CHATLOG, ['user',inputText]];
+			textToTranslate = inputText
 			CHATLOG_STORE.update(currentLogs => {
-				return [...currentLogs, ['user',inputText]]
+				return [...currentLogs, ['user',inputText],['reply',inputText]]
 			})
-
-			if (inputText == 'test'){
-				console.log('testing tts')
-				var rand = Math.floor(Math.random() * 1001);
-				var fileData = new FormData();
-				fileData.append("file", 'ଏଇଠି ଓଡ଼ିଆରେ ଲେଖନ୍ତୁ ଓ ଓଡ଼ିଆରେ ଶୁଣନ୍ତୁ');
-				fileData.append("id", rand);  
-		
-				fetch('http://ai4language.in/analyze', {
-					method: 'post',
-					body: fileData,
-				}).then(r => r.json())
-				.then(r => {
-				console.log('Response: ',r.result) // You will get JSON response here.
-				}).catch(error => console.error('Error', error))
-			}
 		}
+		fetchSpeech('ଏଇଠି ଓଡ଼ିଆରେ ଲେଖନ୍ତୁ ଓ ଓଡ଼ିଆରେ ଶୁଣନ୍ତୁ')
 
 		inputText = ''
-
 	}
+
+	function fetchSpeech(TranslatedOdiaText){
+        console.log('testing tts')
+        var rand = Math.floor(Math.random() * 1001);
+        var fileData = new FormData();
+        fileData.append("file", TranslatedOdiaText);
+        fileData.append("id", rand);  
+
+        fetch('http://ai4language.in/analyze', {
+            method: 'post',
+            body: fileData,
+        }).then(r => r.json())
+        .then(r => {
+        console.log('Response: ',r.result) // You will get JSON response here.
+        }).catch(error => console.error('Error', error))
+     }
 
 </script>
 

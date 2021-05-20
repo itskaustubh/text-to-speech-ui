@@ -13,8 +13,8 @@
   /* padding:16px 28px; */
   -webkit-border-radius: 20px;
   -webkit-border-bottom-left-radius: 2px;
-  -moz-border-radius: 20px;
-  -moz-border-radius-bottomleft: 2px;
+  /* -moz-border-radius: 20px;
+  -moz-border-radius-bottomleft: 2px; */
   border-radius: 20px;
   border-bottom-left-radius: 2px;
   display:inline-block;
