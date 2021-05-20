@@ -18,7 +18,8 @@
         //     //=> nl
         // }).catch(err => {
         //     console.error(err);
-        // }); 
+        // });
+
     }
 
     translateText()

@@ -5,10 +5,15 @@
 			<div class="chatbox">
 				<div class="header"></div>
 				<div class="messages" bind:this={messageBox}>
+					<div class="message-reply-scaffold">
+						<div class="message-reply"><p>Type anything.. We'll convert it to Odia Speech!</p></div>
+					</div>
 					{#each CHATLOG as log}
 						{#if log[0] === 'reply'}
 							<div class="message-reply-scaffold">
-								<div class="message-reply"><p>{log[1]}</p></div>
+								<div class="message-reply">
+									<AudioMessage/>
+								</div>
 							</div>
 						{:else}
 						<div class="message-user-scaffold">
@@ -24,7 +29,7 @@
 				</div>
 				<!-- https://svelte.dev/repl/8eb540552faa4651a398b182fa5cdd48?version=3.24.1 -->
 				<form class="input-box" on:submit|preventDefault={handleSubmit}>
-					<input id="type-message" type="text" placeholder="type in any language" bind:value={inputText}> 
+					<input id="type-message" autocomplete="off" type="text" placeholder="type in any language" bind:value={inputText}> 
 					<div class="send-message" on:click={handleSubmit}></div>
 				</form>
 			</div>
@@ -36,6 +41,9 @@
 <script>
 	import { beforeUpdate, afterUpdate } from 'svelte';
 	import AudioMessage from './components/AudioMessage.svelte'
+	// import {CHATLOG} from './store/state'
+
+	let CHATLOG = []
 
 	let inputText = '';
 	let messageBox;
@@ -51,19 +59,33 @@
 		} 
 	});
 
-	let CHATLOG = [
-		['reply','What do you think of the internet?'],
-		['user',`From what I've seen so far, I love it!`],
-		['reply',`Am I talking to a ghost?`],
-		['user',`b r u h`],
-	]
 
-	function handleSubmit(){
+
+
+	async function 	handleSubmit(){
 		console.log(inputText)
 		if(inputText !== ''){
 			CHATLOG = [...CHATLOG, ['user',inputText]];
-			inputText = ''
+
+			if (inputText == 'test'){
+				console.log('testing tts')
+				var rand = Math.floor(Math.random() * 1001);
+				var fileData = new FormData();
+				fileData.append("file", 'ଏଇଠି ଓଡ଼ିଆରେ ଲେଖନ୍ତୁ ଓ ଓଡ଼ିଆରେ ଶୁଣନ୍ତୁ');
+				fileData.append("id", rand);  
+		
+				fetch('http://ai4language.in/analyze', {
+					method: 'post',
+					body: fileData,
+				}).then(r => r.json())
+				.then(r => {
+				console.log('Response', 'http://ai4language.in/' + r.result) // You will get JSON response here.
+				}).catch(error => console.error('Error', error))
+			}
 		}
+
+		inputText = ''
+
 	}
 
 </script>
