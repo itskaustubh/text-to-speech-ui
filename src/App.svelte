@@ -16,10 +16,15 @@
 						</div>
 						{/if}
 					{/each}
+						<div class="message-reply-scaffold">
+							<div class="message-reply">
+								<AudioMessage/>
+							</div>
+						</div>
 				</div>
 				<!-- https://svelte.dev/repl/8eb540552faa4651a398b182fa5cdd48?version=3.24.1 -->
 				<form class="input-box" on:submit|preventDefault={handleSubmit}>
-					<input id="type-message" type="text" placeholder="type something" bind:value={inputText}> 
+					<input id="type-message" type="text" placeholder="type in any language" bind:value={inputText}> 
 					<div class="send-message" on:click={handleSubmit}></div>
 				</form>
 			</div>
@@ -30,6 +35,7 @@
 
 <script>
 	import { beforeUpdate, afterUpdate } from 'svelte';
+	import AudioMessage from './components/AudioMessage.svelte'
 
 	let inputText = '';
 	let messageBox;
@@ -119,13 +125,15 @@ $box-border-thickness : 4px;
 						display	: flex;
 						flex-direction: column;
 						padding : 15px 15px 0 15px;
-						overflow: auto;
+						overflow-y: auto;
+						overflow-x: hidden;
 
 						.message-reply-scaffold{
 							// display: flex;
 							// flex: none;
 							// background: chocolate;
 							padding-bottom: 1rem;
+							
 
 							.message-reply{
 								max-width: 60%;
@@ -134,6 +142,7 @@ $box-border-thickness : 4px;
 								border-top-left-radius: 0;
 								padding: 1rem;
 								will-change: transform;
+								float: left;
 
 								// word-wrap: break-word;
 								// word-break: break-word;
@@ -164,7 +173,7 @@ $box-border-thickness : 4px;
 						display: flex;
 						
 						#type-message{
-							flex: 9;
+							flex: auto;
 							background: transparent;
 							border: none;
 							font-size: 1rem;
@@ -176,11 +185,14 @@ $box-border-thickness : 4px;
 						}
 
 						.send-message{
-							flex : 2;
-							background: darkcyan;
+							// flex : 2;
+							width: 55px;
+							height: 55px;
+							background: #6CAD96;
+							cursor: pointer;
 
 							margin: 10px 10px 10px 5px;
-							border-radius: 12px;
+							border-radius: 30px;
 						}
 					}
 				}
