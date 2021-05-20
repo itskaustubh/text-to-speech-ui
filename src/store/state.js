@@ -1,4 +1,4 @@
-import {writable} from 'svelte/store'
+import {writable } from 'svelte/store'
 
 const CHATLOG = writable([
     ['reply','What do you think of the internet?'],

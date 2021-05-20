@@ -41,9 +41,12 @@
 <script>
 	import { beforeUpdate, afterUpdate } from 'svelte';
 	import AudioMessage from './components/AudioMessage.svelte'
-	// import {CHATLOG} from './store/state'
+	import CHATLOG_STORE from './store/state'
 
 	let CHATLOG = []
+	CHATLOG_STORE.subscribe(newLog = {
+		CHATLOG = newLog
+	})
 
 	let inputText = '';
 	let messageBox;
@@ -74,12 +77,12 @@
 				fileData.append("file", 'ଏଇଠି ଓଡ଼ିଆରେ ଲେଖନ୍ତୁ ଓ ଓଡ଼ିଆରେ ଶୁଣନ୍ତୁ');
 				fileData.append("id", rand);  
 		
-				fetch('https://ai4language.in/analyze', {
+				fetch('http://ai4language.in/analyze', {
 					method: 'post',
 					body: fileData,
 				}).then(r => r.json())
 				.then(r => {
-				console.log('Response', 'https://ai4language.in/' + r.result) // You will get JSON response here.
+				console.log('Response: ',r.result) // You will get JSON response here.
 				}).catch(error => console.error('Error', error))
 			}
 		}
