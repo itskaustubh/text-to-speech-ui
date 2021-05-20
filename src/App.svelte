@@ -4,21 +4,24 @@
 		<div class="scaffold">
 			<div class="chatbox">
 				<div class="header"></div>
-				<div class="messages">
-					<div class="message-reply-scaffold">
-						<div class="message-reply"><p>oh hi! how are you? oh hi! how are you? oh hi! how are you? oh hi! how are you? i'm fine.i'm fine.i'm fine.i'm fine.</p></div>
-					</div>
-					<div class="message-user-scaffold">
-						<div class="message-user">i'm fine.i'm fine.i'm fine.i'm fine.i'm fine.i'm fine.i'm fine.i'm fine.i'm fine. jeez.</div>
-					</div>
-					<div class="message-reply-scaffold">
-						<div class="message-reply">oh hi! how are you? oh hi! how are you? oh hi! how are you? oh hi! how are you? i'm fine.i'm fine.i'm fine.i'm fine.</div>
-					</div>
-					<div class="message-user-scaffold">
-						<div class="message-user">i'm fine.i'm fine.i'm fine.i'm fine.i'm fine.i'm fine.i'm fine.i'm fine.i'm fine. jeez.</div>
-					</div>
+				<div class="messages" bind:this={messageBox}>
+					{#each CHATLOG as log}
+						{#if log[0] === 'reply'}
+							<div class="message-reply-scaffold">
+								<div class="message-reply"><p>{log[1]}</p></div>
+							</div>
+						{:else}
+						<div class="message-user-scaffold">
+							<div class="message-user"><p>{log[1]}</p></div>
+						</div>
+						{/if}
+					{/each}
 				</div>
-				<div class="input"></div>
+				<!-- https://svelte.dev/repl/8eb540552faa4651a398b182fa5cdd48?version=3.24.1 -->
+				<form class="input-box" on:submit|preventDefault={handleSubmit}>
+					<input id="type-message" type="text" placeholder="type something" bind:value={inputText}> 
+					<div class="send-message" on:click={handleSubmit}></div>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -26,6 +29,36 @@
 </div>
 
 <script>
+	import { beforeUpdate, afterUpdate } from 'svelte';
+
+	let inputText = '';
+	let messageBox;
+	let autoscroll;
+
+	beforeUpdate(() => {
+		autoscroll = messageBox && (messageBox.offsetHeight + messageBox.scrollTop) > (messageBox.scrollHeight - 20);
+	});
+
+	afterUpdate(() => {
+		if (autoscroll) {
+			messageBox.scrollTo({ top: messageBox.scrollHeight, left: 0, behavior: 'smooth' });	
+		} 
+	});
+
+	let CHATLOG = [
+		['reply','What do you think of the internet?'],
+		['user',`From what I've seen so far, I love it!`],
+		['reply',`Am I talking to a ghost?`],
+		['user',`b r u h`],
+	]
+
+	function handleSubmit(){
+		console.log(inputText)
+		if(inputText !== ''){
+			CHATLOG = [...CHATLOG, ['user',inputText]];
+			inputText = ''
+		}
+	}
 
 </script>
 
@@ -57,7 +90,6 @@ $box-border-thickness : 4px;
 				width		: 90%;
 				
 				margin: 10vh auto 0 auto;
-				transform-style: preserve-3d;
 				perspective: 500px;
 				
 				.chatbox{
@@ -67,6 +99,7 @@ $box-border-thickness : 4px;
 					border: $box-border-thickness solid $box-color;
 					border-radius: 12px;
 					transform: rotateY(-10deg);
+					transform-style: preserve-3d;
 					// transform: perspective(100vh) rotateY(-7deg);
 
 
@@ -124,16 +157,32 @@ $box-border-thickness : 4px;
 								float : right;
 							}
 						}
-
-						
 					}
 
-					.input{
+					.input-box{
 						flex	: 3;
+						display: flex;
+						
+						#type-message{
+							flex: 9;
+							background: transparent;
+							border: none;
+							font-size: 1rem;
+							padding: 1.5rem;
+
+							&:focus{
+								border: none;
+							}
+						}
+
+						.send-message{
+							flex : 2;
+							background: darkcyan;
+
+							margin: 10px 10px 10px 5px;
+							border-radius: 12px;
+						}
 					}
-
-
-
 				}
 			}
 		}
