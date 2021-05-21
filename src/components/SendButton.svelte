@@ -1,11 +1,9 @@
 <!-- https://codepen.io/nourabusoud/pen/ypZzMM?editors=1010 -->
-<button class="bubbly-button" class:animate={showSparks} 
+<button class="bubbly-button noselect" class:animate={showSparks} 
   on:click|preventDefault={handleClick} 
   on:animationend={handleAnimationEnd}>
-    <img class='paper-plane' src="./assets/plane.svg">
+    <img class='paper-plane' src="./assets/plane.svg" alt='Send'>
 </button>
-
-
 
 <script>
     import { createEventDispatcher } from 'svelte';
@@ -22,13 +20,13 @@
     }
     
     function handleAnimationEnd(){
-        console.log('animation ended')
+        // console.log('animation ended')
         showSparks = false
     }
 </script>
 
 <style lang='scss'>
-$coral: rgb(255,127,80);
+$coral: #ffb0ac;
 $button-bg: $coral;
 $button-text-color: #fff;
 $baby-blue: #f8faff;
@@ -55,12 +53,12 @@ $baby-blue: #f8faff;
     box-shadow: 0 2px 25px rgba(255,127,80, 0.5);
 
     .paper-plane{
-        width: 30px;
-        margin-top: 10px;
+      width: 30px;
+      margin-top: 10px;
     }
 
     &:focus {
-    outline: 0;
+      outline: 0;
     }
 
     &:before, &:after{

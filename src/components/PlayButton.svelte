@@ -1,5 +1,5 @@
 <!-- https://codepen.io/MarioDesigns/pen/ENevMJ -->
-<div class="container" >
+<div class="container noselect" >
 	<div class="btn play" class:play={!isPlaying} class:pause={isPlaying} on:click={handlePlayPause}>
 		<span class="bar bar-1"></span>
 		<span class="bar bar-2"></span>			 	

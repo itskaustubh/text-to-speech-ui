@@ -1,5 +1,8 @@
+<!-- <div class="background"></div> -->
 <div class="flex-div">
-	<div class="left-div"></div>
+	<div class="left-div">
+		<Details/>
+	</div>
 	<div class="center-div">
 		<div class="scaffold">
 			<div class="chatbox">
@@ -12,7 +15,7 @@
 						{#if log[0] === 'reply'}
 							<div class="message-reply-scaffold">
 								<div class="message-reply">
-									<AudioMessage textToTranslate = {textToTranslate}/>
+									<AudioMessage textToTranslate = {textToTranslate} on:processed = {allowNewMessages}/>
 								</div>
 							</div>
 						{:else}
@@ -24,9 +27,8 @@
 				</div>
 				<!-- https://svelte.dev/repl/8eb540552faa4651a398b182fa5cdd48?version=3.24.1 -->
 				<form class="input-box" on:submit|preventDefault={handleSubmit}>
-					<input id="type-message" autocomplete="off" type="text" placeholder="type in any language" bind:value={inputText}> 
+					<input id="type-message"  type="text" name={Math.random()} maxlength="60" placeholder="type in any language" bind:value={inputText}> 
 					<SendButton on:send={handleSubmit}/>
-
 				</form>
 			</div>
 		</div>
@@ -38,6 +40,7 @@
 	import { beforeUpdate, afterUpdate } from 'svelte';
 	import AudioMessage from './components/AudioMessage.svelte'
 	import SendButton from './components/SendButton.svelte'
+	import Details from './components/Details.svelte'
 	import CHATLOG_STORE from './store/state'
 
 	let CHATLOG = []
@@ -50,6 +53,7 @@
 	let messageBox;
 	let autoscroll;
 	let textToTranslate;
+	var isServerBusy = false
 
 	beforeUpdate(() => {
 		autoscroll = messageBox && (messageBox.offsetHeight + messageBox.scrollTop) > (messageBox.scrollHeight - 20);
@@ -62,14 +66,20 @@
 	});
 
 	function handleSubmit(){
-		console.log(inputText)
-		if(inputText !== ''){
+		// console.log(inputText)
+		inputText = inputText.trim()
+		if(isServerBusy){
+			console.log('server busy!')
+		}else if(inputText !== '' && inputText.length <= 60){
 			// CHATLOG = [...CHATLOG, ['user',inputText]];
 			textToTranslate = inputText
 			CHATLOG_STORE.update(currentLogs => {
 				return [...currentLogs, ['user',inputText],['reply',inputText]]
 			})
+			isServerBusy = true
 		}
+
+		// temp
 		if(inputText == 'test'){
 			fetchSpeech('ଏଇଠି ଓଡ଼ିଆରେ ଲେଖନ୍ତୁ ଓ ଓଡ଼ିଆରେ ଶୁଣନ୍ତୁ')
 		}
@@ -93,6 +103,10 @@
         }).catch(error => console.error('Error', error))
      }
 
+	 function allowNewMessages(){
+		 isServerBusy = false;
+	 }
+
 </script>
 
 <!-- https://sass-scss-converter.netlify.app/ -->
@@ -105,17 +119,22 @@ $box-border-thickness : 4px;
 		display: flex;
 		width: 100%;
 		height: 100%;
+		// background-image: linear-gradient(62deg, rgb(142, 197, 252) 0%, rgb(224, 195, 252) 100%);
+		// background-image: linear-gradient(62deg, #ffafbd 0%, #e0c3fc 100%);
+		// background-image: linear-gradient(62deg, #7EE8FA 0%, #e0c3fc 100%);
+		background: linear-gradient(-20deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%);
 
 		.left-div{
 			flex : 6;
+			position : relative;
 
-			background: lemonchiffon;
-			border-right: 2px dashed $box-color;
+			// background: lemonchiffon;
+			// border-right: 2px dashed $box-color;
 		}
 
 		.center-div{
 			flex : 5;
-			background: lemonchiffon;
+			// background: lemonchiffon;
 
 			.scaffold{
 				height		: 80vh;
@@ -134,6 +153,7 @@ $box-border-thickness : 4px;
 					transform: rotateY(-10deg);
 					transform-style: preserve-3d;
 					// transform: perspective(100vh) rotateY(-7deg);
+					box-shadow: 10px 5px 40px 2px rgba(244, 59, 71, 0.4);
 
 
 					display: flex;
@@ -154,6 +174,9 @@ $box-border-thickness : 4px;
 						padding : 15px 15px 0 15px;
 						overflow-y: auto;
 						overflow-x: hidden;
+
+						scrollbar-color: #ffb0ac #e8c7d8 !important;
+						scrollbar-width: thin;
 
 						.message-reply-scaffold{
 							// display: flex;
@@ -235,8 +258,8 @@ $box-border-thickness : 4px;
 		.right-div{
 			flex : 1;
 
-			background: lemonchiffon;
-			border-left: 2px dashed $box-color;
+			// background: lemonchiffon;
+			// border-left: 2px dashed $box-color;
 		}
 
 	}

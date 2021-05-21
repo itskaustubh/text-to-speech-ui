@@ -7,7 +7,7 @@
         {/if}
     </div>
     <div class="odia-text">
-        <Translate textToTranslate={textToTranslate}/>
+        <Translate textToTranslate={textToTranslate} on:translated={fetchSpeech}/>
     </div>
 </div>
 
@@ -15,6 +15,9 @@
     import PlayButton from './PlayButton.svelte'
     import Bubbles from './Bubbles.svelte'
     import Translate from './Translate.svelte'
+    import { createEventDispatcher } from 'svelte';
+
+    const dispatch = createEventDispatcher();
 
     export let textToTranslate;
 
@@ -23,25 +26,30 @@
 
     // console.log(textToTranslate)
 
-    setTimeout(function(){ 
-        audioURL = 'http://ai4language.in/static/661491423.wav'
-        isProcessing = false;
-     }, 1000);
+     function fetchSpeech(event){
+         console.log('fetching speech for ' + event.detail.translatedText)
 
-     function fetchSpeech(TranslatedOdiaText){
-        console.log('testing tts')
-        var rand = Math.floor(Math.random() * 1001);
-        var fileData = new FormData();
-        fileData.append("file", TranslatedOdiaText);
-        fileData.append("id", rand);  
+        setTimeout(function(){ 
+            audioURL = 'http://ai4language.in/static/661491423.wav'
+            isProcessing = false;
+            dispatch('processed')
+            console.log(audioURL)
+        }, 1000);
 
-        fetch('http://ai4language.in/analyze', {
-            method: 'post',
-            body: fileData,
-        }).then(r => r.json())
-        .then(r => {
-        console.log('Response: ',r.result) // You will get JSON response here.
-        }).catch(error => console.error('Error', error))
+        // console.log('testing tts')
+        // var rand = Math.floor(Math.random() * 1001);
+        // var fileData = new FormData();
+        // fileData.append("file", TranslatedOdiaText);
+        // fileData.append("id", rand);  
+
+        // fetch('http://ai4language.in/analyze', {
+        //     method: 'post',
+        //     body: fileData,
+        // }).then(r => r.json())
+        // .then(r => {
+        // console.log('Response: ',r.result) // You will get JSON response here.
+        // }).catch(error => console.error('Error', error))
+
      }
 
 

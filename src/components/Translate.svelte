@@ -1,9 +1,12 @@
-<p>{textToTranslate} {sentence}</p>
+<p>{translatedText}</p>
 
 <script>
+	import { createEventDispatcher } from 'svelte';
 
-    let sentence = ''
+    const dispatch = createEventDispatcher();
+
     export let textToTranslate;
+    var translatedText = ''
 
     // console.log(textToTranslate)
 
@@ -13,7 +16,8 @@
     //     console.log(resp.data[0])
     // })
 
-    async function translateText(){
+    async function translateText(textToTranslate){
+        console.log('translating text ' + textToTranslate)
         // translate('Ik spreek Engels', {to: 'en'}).then(res => {
         //     console.log(res.text);
         //     //=> I speak English
@@ -22,10 +26,14 @@
         // }).catch(err => {
         //     console.error(err);
         // });
+        setTimeout(() => {
+            translatedText = 'ଏଇଠି ଓଡ଼ିଆରେ ଲେଖନ୍ତୁ'
+            dispatch('translated',{ translatedText })
+        },1000)
 
     }
 
-    translateText()
+    translateText(textToTranslate)
 </script>
 
 <style>
