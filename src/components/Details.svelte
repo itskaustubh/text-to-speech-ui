@@ -36,5 +36,12 @@
         display: none;
     }
 }
+
+
+@media screen and (max-height: 300px){
+    .tos{
+        display: none;
+    }
+}
 </style>
 

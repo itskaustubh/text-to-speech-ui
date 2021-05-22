@@ -4,6 +4,7 @@
 		<Details/>
 	</div>
 	<div class="center-div">
+		<div class="center-header noselect"><h1 id='center-title'>Odia Text to Speech</h1></div>
 		<div class="scaffold">
 			<div class="chatbox">
 				<div class="header"></div>
@@ -32,6 +33,9 @@
 				</form>
 			</div>
 		</div>
+		<div class="center-footer noselect">
+			<p id='center-tos'>This demo is for evaluation purposes only. <a href="mailto:info@odialanguage.com">Pricing Support.</a></p>
+		</div>
 	</div>
 	<div class="right-div"></div>
 </div>
@@ -54,6 +58,7 @@
 	let autoscroll;
 	let textToTranslate;
 	var isServerBusy = false
+	let masterDiv
 
 	beforeUpdate(() => {
 		autoscroll = messageBox && (messageBox.offsetHeight + messageBox.scrollTop) > (messageBox.scrollHeight - 20);
@@ -134,7 +139,33 @@ $box-border-thickness : 4px;
 
 		.center-div{
 			flex : 5;
+			position : relative;
 			// background: lemonchiffon;
+
+			.center-header{
+				display	: none;
+				position : absolute;
+				margin: 0 0 0 2rem;
+				top : 0;
+
+				#center-title{
+					font-size: 1.5rem;
+				}
+			}
+
+			
+			.center-footer{
+				display	: none;
+				position : absolute;
+				margin: 0 0 0 2rem;
+				bottom: 0;
+				right: 0;
+
+				#center-tos{
+					font-size : 15px;
+					margin-bottom: 2px;
+				}
+			}
 
 			.scaffold{
 				height		: 80vh;
@@ -299,7 +330,7 @@ $box-border-thickness : 4px;
 	}
 }
 
-
+// Smartphone Display
 @media screen and (max-width: 600px){
 	.flex-div{
 		.left-div{
@@ -313,7 +344,17 @@ $box-border-thickness : 4px;
 					transform: initial;
 				}
 			}
+
+			.center-header{
+				display: block;
+			}
+
+			// .center-footer{
+			// 	display: block;
+			// }
+			
 		}
 	}
 }
+
 </style>

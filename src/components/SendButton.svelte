@@ -50,7 +50,7 @@ $baby-blue: #f8faff;
     cursor: pointer;
     position: relative;
     transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
-    box-shadow: 0 2px 25px rgba(255,127,80, 0.5);
+    // box-shadow: 0 2px 25px rgba(255,127,80, 0.5);
 
     .paper-plane{
       width: 30px;
@@ -106,9 +106,9 @@ $baby-blue: #f8faff;
     }
 
     &:active{
-    transform: scale(0.9);
-    background-color: darken($button-bg, 5%);
-    box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
+      transform: scale(0.9);
+      background-color: darken($button-bg, 5%);
+      box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
     }
 
     &.animate{
