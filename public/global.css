@@ -114,3 +114,33 @@ button:focus {
     border-radius: 6px;
     border: 3px solid var(--scrollbarBG);
   }			
+
+  /* Text bubble pop animation */
+  @keyframes pop {
+	from {
+	  opacity: 0;
+	  transform: scale(0.66);
+	}
+	to {
+	  opacity: 1;
+	  transform: none;
+	}
+  }
+
+  @keyframes transformThreeDee {
+	from {
+	  opacity: 0;
+	  transform: rotateY(0deg) translateY(-2rem);	}
+	to {
+	  opacity: 1;
+	  transform: rotateY(-10deg) translateY(0rem);	}
+  }
+
+  @keyframes fadeIn {
+	from {
+	  opacity: 0;
+	}
+	to {
+	  opacity: 1;
+	}
+  }

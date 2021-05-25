@@ -15,6 +15,12 @@
 </script>
 
 <style>
+
+    .wrapper{
+        animation: fadeIn 2s cubic-bezier(0.36, -0.04, 0.15, 1.64) 0.9s both;
+
+    }
+
     .header{
         text-align: right;
         margin-top : 40vh;

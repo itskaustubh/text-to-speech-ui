@@ -56,9 +56,8 @@
 	let inputText = '';
 	let messageBox;
 	let autoscroll;
-	let textToTranslate;
+	let textToTranslate; 
 	var isServerBusy = false
-	let masterDiv
 
 	beforeUpdate(() => {
 		autoscroll = messageBox && (messageBox.offsetHeight + messageBox.scrollTop) > (messageBox.scrollHeight - 20);
@@ -127,7 +126,8 @@ $box-border-thickness : 4px;
 		// background-image: linear-gradient(62deg, rgb(142, 197, 252) 0%, rgb(224, 195, 252) 100%);
 		// background-image: linear-gradient(62deg, #ffafbd 0%, #e0c3fc 100%);
 		// background-image: linear-gradient(62deg, #7EE8FA 0%, #e0c3fc 100%);
-		background: linear-gradient(-20deg, #ddd6f3 0%, #faaca8 100%, #faaca8 100%);
+		// background: linear-gradient(-20deg, #ddd6f3 0%, #faaca8 100%);
+		background: linear-gradient(-20deg, #efd6f3 0%, #a8eefa 100%);
 
 		.left-div{
 			flex : 6;
@@ -147,6 +147,7 @@ $box-border-thickness : 4px;
 				position : absolute;
 				margin: 0 0 0 2rem;
 				top : 0;
+				animation: fadeIn 2s cubic-bezier(0.36, -0.04, 0.15, 1.64) 0.9s both;
 
 				#center-title{
 					font-size: 1.5rem;
@@ -181,10 +182,11 @@ $box-border-thickness : 4px;
 					width: 100%;	
 					border: $box-border-thickness solid $box-color;
 					border-radius: 12px;
-					transform: rotateY(-10deg);
+					// transform: rotateY(-10deg);
 					transform-style: preserve-3d;
 					// transform: perspective(100vh) rotateY(-7deg);
-					box-shadow: 10px 5px 40px 2px rgba(244, 59, 71, 0.4);
+					// box-shadow: 10px 5px 40px 2px rgba(244, 59, 71, 0.4);
+					animation: transformThreeDee 0.3s cubic-bezier(0.36, -0.04, 0.15, 1.64) 0.2s both;
 
 
 					display: flex;
@@ -215,7 +217,6 @@ $box-border-thickness : 4px;
 							// background: chocolate;
 							padding-bottom: 1rem;
 							
-
 							.message-reply{
 								max-width: 80%;
 								background: white;
@@ -229,7 +230,7 @@ $box-border-thickness : 4px;
 								word-break: break-word;
 								hyphens: auto;
 
-								// animation: pop 0.3s cubic-bezier(0.36, -0.04, 0.15, 1.64) 0.9s both;
+								animation: pop 0.3s cubic-bezier(0.36, -0.04, 0.15, 1.64) 0.5s both;
 							}
 						}
 
@@ -248,6 +249,7 @@ $box-border-thickness : 4px;
 								hyphens: auto;
 								word-wrap: break-word;
 								word-break: break-word;
+								animation: pop 0.3s cubic-bezier(0.36, -0.04, 0.15, 1.64) 0.1s both;
 							}
 						}
 					}
@@ -341,7 +343,7 @@ $box-border-thickness : 4px;
 				height		: 90vh;
 				margin: 5vh auto 0 auto;
 				.chatbox{
-					transform: initial;
+					transform: initial !important;
 				}
 			}
 

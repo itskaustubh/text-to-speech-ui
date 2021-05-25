@@ -44,7 +44,7 @@ $baby-blue: #f8faff;
     margin: auto 10px auto auto;
     -webkit-appearance: none;
     appearance: none;
-    background-color: $button-bg;
+    background-color: transparent;
     color: $button-text-color;
     border: none;
     cursor: pointer;
@@ -107,7 +107,7 @@ $baby-blue: #f8faff;
 
     &:active{
       transform: scale(0.9);
-      background-color: darken($button-bg, 5%);
+      // background-color: darken($button-bg, 5%);
       box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
     }
 
