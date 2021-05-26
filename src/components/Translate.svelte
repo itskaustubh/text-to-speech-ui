@@ -7,30 +7,26 @@
 
     export let textToTranslate;
     var translatedText = ''
-
-    // console.log(textToTranslate)
-
-    // translate(`I'm fine.`, {
-    //     to: "Hindi",
-    // }).then((resp) => {
-    //     console.log(resp.data[0])
-    // })
-
+    // https://stackoverflow.com/questions/29775797/fetch-post-json-data
     async function translateText(textToTranslate){
         console.log('translating text ' + textToTranslate)
-        // translate('Ik spreek Engels', {to: 'en'}).then(res => {
-        //     console.log(res.text);
-        //     //=> I speak English
-        //     console.log(res.from.language.iso);
-        //     //=> nl
-        // }).catch(err => {
-        //     console.error(err);
-        // });
-        setTimeout(() => {
-            translatedText = 'ଏଇଠି ଓଡ଼ିଆରେ ଲେଖନ୍ତୁ'
-            dispatch('translated',{ translatedText })
-        },1000)
-
+        fetch('https://translate.kaustubh.app/translate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+        },
+            body: JSON.stringify({TEXT : textToTranslate})
+        })
+        .then(res => res.json())
+        .then(data => {
+            const translated = data.translated
+            console.log(translated)
+            translatedText = translated
+            dispatch('translated',{ translated })        
+        })
+        .catch(error => {
+            console.log(error)
+        })  
     }
 
     translateText(textToTranslate)
