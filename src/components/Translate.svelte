@@ -29,7 +29,14 @@
         })  
     }
 
-    translateText(textToTranslate)
+    // Text with a ! prefix are test queries, not to be sent to API
+    if(textToTranslate[0] === '!'){
+        const translated = textToTranslate
+        translatedText = translated
+        setTimeout(() => dispatch('translated',{ translated }), 1000)
+    }else{
+        translateText(textToTranslate)
+    }
 </script>
 
 <style>

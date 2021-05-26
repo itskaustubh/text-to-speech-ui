@@ -27,14 +27,33 @@
     // console.log(textToTranslate)
 
      function fetchSpeech(event){
-         console.log('fetching speech for ' + event.detail.translatedText)
+         const translatedText = event.detail.translated
+         console.log('fetching speech for ' + translatedText)
 
-        setTimeout(function(){ 
-            audioURL = 'http://ai4language.in/static/661491423.wav'
+        // setTimeout(function(){ 
+        //     audioURL = 'http://ai4language.in/static/661491423.wav'
+        //     isProcessing = false;
+        //     dispatch('processed')
+        //     console.log(audioURL)
+        // }, 1000);
+
+        fetch('https://translate.kaustubh.app/analyze', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+        },
+            body: JSON.stringify({TEXT : translatedText})
+        })
+        .then(res => res.json())
+        .then(data => {
+            audioURL = 'http://ai4language.in/' + data.audio
             isProcessing = false;
             dispatch('processed')
-            console.log(audioURL)
-        }, 1000);
+            console.log(audioURL)    
+        })
+        .catch(error => {
+            console.log(error)
+        })  
 
         // console.log('testing tts')
         // var rand = Math.floor(Math.random() * 1001);

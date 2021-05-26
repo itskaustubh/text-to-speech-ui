@@ -216,6 +216,7 @@ $box-border-thickness : 4px;
 							// flex: none;
 							// background: chocolate;
 							padding-bottom: 1rem;
+							transform-style: preserve-3d;
 							
 							.message-reply{
 								max-width: 80%;
@@ -237,6 +238,7 @@ $box-border-thickness : 4px;
 						.message-user-scaffold{
 							align-self: flex-end;
 							padding-bottom: 1rem;
+							transform-style: preserve-3d;
 
 							.message-user{
 								max-width: 80%;

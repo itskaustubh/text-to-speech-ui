@@ -104,7 +104,7 @@ button:focus {
   }
   body {
     scrollbar-width: thin;
-    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+    /* scrollbar-color: var(--thumbBG) var(--scrollbarBG); */
   }
   body::-webkit-scrollbar-track {
     background: var(--scrollbarBG);
