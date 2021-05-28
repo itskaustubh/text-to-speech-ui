@@ -7,7 +7,16 @@
 		<div class="center-header noselect"><h1 id='center-title'>Odia Text to Speech</h1></div>
 		<div class="scaffold">
 			<div class="chatbox">
-				<div class="header"></div>
+				<div class="header">
+					<div class="api-status"> 
+						<span class="dot" bind:this={serverDot} ></span>
+						<p>{serverStatus}</p>
+						{#if serverStatus == "Initializing"}
+							<p id='three-dots'></p>
+						{/if}
+					</div>
+					
+				</div>
 				<div class="messages" bind:this={messageBox}>
 					<div class="message-reply-scaffold">
 						<div class="message-reply"><p>Type anything.. We'll convert it to Odia Speech!</p></div>
@@ -46,6 +55,8 @@
 	import SendButton from './components/SendButton.svelte'
 	import Details from './components/Details.svelte'
 	import CHATLOG_STORE from './store/state'
+	import { onMount } from 'svelte';
+
 
 	let CHATLOG = []
 	CHATLOG_STORE.subscribe(newLog => {
@@ -58,6 +69,29 @@
 	let autoscroll;
 	let textToTranslate; 
 	var isServerBusy = false
+	let serverStatus = 'Initializing'
+	let serverDot
+
+	onMount(() => {
+		serverDot.style.backgroundColor = '#ff8f00'
+        fetch('https://translate.kaustubh.app', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+        }
+        }).then(res => res.json())
+          .then(data => {
+            if(data.active){
+				serverDot.style.backgroundColor = 'lightgreen'
+				serverStatus = "Connected"
+			}
+        })
+        .catch(error => {
+            console.log(error)
+			serverDot.style.backgroundColor = '#ff4633'
+			serverStatus = "Server Error"
+        })  
+	})
 
 	beforeUpdate(() => {
 		autoscroll = messageBox && (messageBox.offsetHeight + messageBox.scrollTop) > (messageBox.scrollHeight - 20);
@@ -84,31 +118,35 @@
 		}
 
 		// temp
-		if(inputText == 'test'){
-			fetchSpeech('ଏଇଠି ଓଡ଼ିଆରେ ଲେଖନ୍ତୁ ଓ ଓଡ଼ିଆରେ ଶୁଣନ୍ତୁ')
-		}
+		// if(inputText == 'test'){
+		// 	fetchSpeech('ଏଇଠି ଓଡ଼ିଆରେ ଲେଖନ୍ତୁ ଓ ଓଡ଼ିଆରେ ଶୁଣନ୍ତୁ')
+		// }
 
 		inputText = ''
 	}
 
-	function fetchSpeech(TranslatedOdiaText){
-        console.log('testing tts')
-        var rand = Math.floor(Math.random() * 1001);
-        var fileData = new FormData();
-        fileData.append("file", TranslatedOdiaText);
-        fileData.append("id", rand);  
+	// function fetchSpeech(TranslatedOdiaText){
+    //     console.log('testing tts')
+    //     var rand = Math.floor(Math.random() * 1001);
+    //     var fileData = new FormData();
+    //     fileData.append("file", TranslatedOdiaText);
+    //     fileData.append("id", rand);  
 
-        fetch('https://ai4language.in/analyze', {
-            method: 'post',
-            body: fileData,
-        }).then(r => r.json())
-        .then(r => {
-        console.log('Response: ',r.result) // You will get JSON response here.
-        }).catch(error => console.error('Error', error))
-     }
+    //     fetch('https://ai4language.in/analyze', {
+    //         method: 'post',
+    //         body: fileData,
+    //     }).then(r => r.json())
+    //     .then(r => {
+    //     console.log('Response: ',r.result) // You will get JSON response here.
+    //     }).catch(error => console.error('Error', error))
+    //  }
 
 	 function allowNewMessages(){
 		 isServerBusy = false;
+		 if (serverStatus == 'Server Error'){
+			serverDot.style.backgroundColor = 'lightgreen'
+			serverStatus = "Connected"
+		 }
 	 }
 
 </script>
@@ -195,6 +233,26 @@ $box-border-thickness : 4px;
 					.header{
 						flex	: 2;
 						border-bottom: $box-border-thickness solid $box-color;
+
+						.api-status{
+							display: flex;
+							padding: 10px;
+						}
+
+						.dot {
+							height: 15px;
+							width: 15px;
+							background-color: #ff4633;
+							border-radius: 50%;
+							display: inline-block;
+							margin-right: 5px;		
+							border: 2px solid #114b5f;				
+						}
+
+						#three-dots::after{
+							content : "";
+							animation : threeDotsLoop 2s linear infinite;
+						}
 					}
 
 					.messages{
@@ -309,7 +367,6 @@ $box-border-thickness : 4px;
 
 		.center-div{
 			flex: 4;
-
 		}
 
 		.right-div{
@@ -361,4 +418,15 @@ $box-border-thickness : 4px;
 	}
 }
 
+@keyframes threeDotsLoop {
+	25%{
+		content : '.'
+	}
+	50%{
+		content : '..'
+	}
+	75%{
+		content : '...'
+	}
+}
 </style>
