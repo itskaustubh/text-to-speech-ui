@@ -8,7 +8,7 @@
 		<div class="scaffold">
 			<div class="chatbox">
 				<div class="header">
-					<div class="api-status"> 
+					<div class="api-status" class:api-status-fade="{serverStatus === 'Connected'}"> 
 						<span class="dot" bind:this={serverDot} ></span>
 						<p>{serverStatus}</p>
 						{#if serverStatus == "Initializing"}
@@ -237,6 +237,12 @@ $box-border-thickness : 4px;
 						.api-status{
 							display: flex;
 							padding: 10px;
+							transition: opacity 2s;	
+							transition-delay: 2s;
+						}
+
+						.api-status-fade{
+							opacity : 0;
 						}
 
 						.dot {
@@ -246,7 +252,7 @@ $box-border-thickness : 4px;
 							border-radius: 50%;
 							display: inline-block;
 							margin-right: 5px;		
-							border: 2px solid #114b5f;				
+							border: 2px solid #114b5f;			
 						}
 
 						#three-dots::after{
