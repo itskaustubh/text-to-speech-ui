@@ -1,8 +1,9 @@
-*Looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
 
----
+### See live: https://itskaustubh.github.io/text-to-speech-ui/
 
-# svelte app
+Also Deployed on https://ai4language.kaustubh.app
+
+# Odia Text-To-Speech App UI
 
 This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
 
