@@ -1,6 +1,7 @@
 {
   "name": "svelte-app",
   "version": "1.0.0", 
+  "homepage": "https://itskaustubh.github.io/text-to-speech/",
   "private": true,
   "scripts": {
     "build": "rollup -c",
