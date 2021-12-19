@@ -16,6 +16,8 @@
     import Bubbles from './Bubbles.svelte'
     import Translate from './Translate.svelte'
     import { createEventDispatcher } from 'svelte';
+    
+    const BACKEND_BASE_URL = "https://odia-text-to-speech.glitch.me"
 
     const dispatch = createEventDispatcher();
 
@@ -37,7 +39,7 @@
         //     console.log(audioURL)
         // }, 1000);
 
-        fetch('https://translate.kaustubh.app/analyze', {
+        fetch(BACKEND_BASE_URL + '/analyze', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
