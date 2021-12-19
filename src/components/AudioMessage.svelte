@@ -48,7 +48,7 @@
         })
         .then(res => res.json())
         .then(data => {
-            audioURL = 'http://ai4language.in/' + data.audio
+            audioURL = data.audio
             isProcessing = false;
             dispatch('processed')
             console.log(audioURL)    
